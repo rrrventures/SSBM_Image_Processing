@@ -3,9 +3,9 @@ __author__ = 'Ilde'
 import numpy as np
 import cv2
 
-cap = cv2.VideoCapture('C:/py/apex.avi')
+cap = cv2.VideoCapture('apex.avi')
 
-template = cv2.imread('C:/py/templateprueba.jpg')[:,:,2]
+template = cv2.imread('templateprueba.jpg')[:,:,2]
 template = template - cv2.erode(template, None)
 w, h = template.shape[:2]
 threshold = 0.80
