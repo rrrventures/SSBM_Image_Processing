@@ -1,5 +1,8 @@
 __author__ = 'Ilde'
 # quita el fondo, deja las puras vidas, ta bueno
+# This python scripts attempts to find the number of fox stocks in each frame of a video
+# It uses a template of the fox stock to try to find it.
+
 import numpy as np
 import cv2
 
