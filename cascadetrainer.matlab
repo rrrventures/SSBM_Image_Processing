@@ -1,6 +1,7 @@
-% MATLAB img proc. lazy script
+% MATLAB img proc. test script
+% Cascade trainer classifer attempt
 
-#Get the names of images of positive examples in the folder
+%Get the names of images of positive examples in the folder
 x = dir('C:/py/framesPositivos')
 names = {x.name}
 adssa = names(3:end)
@@ -11,7 +12,7 @@ for j=1:390
   imageFilename{j} = sprintf('C:/py/framesPositivos/%s',adssa{j}); 
 end
 
-% Info on bounding boxes of every stock example for fox
+% Info on bounding boxes of every stock example for the positive examples
 
 verde = cell(1,82);
 verde(:) = {[405 523 44 44]};
