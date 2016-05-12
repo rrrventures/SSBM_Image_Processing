@@ -1,2 +1,4 @@
 # SSBM_Image_Processing
-Different ways to attempt to find certain things (stocks, or lives) in video footage of super smash brothers melee
+MATLAB code to process videos of SSBM. It finds and interprets the percents the players are at at each frame, the time of the stage, and what stage are they playing in.
+
+Work in progress.
