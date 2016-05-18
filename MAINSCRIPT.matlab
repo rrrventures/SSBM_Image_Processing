@@ -7,7 +7,10 @@ paren = @(x, varargin) x(varargin{:});
 
 
 %Initiating cells, loading model for later predictions
+%The detector one is not used for now
 detector = vision.CascadeObjectDetector('meleeDetector.xml');
+
+%Particular example for this video. Later I will just loop through the tournament vids.
 source='WS Armada (Peach) vs. Plup (Sheik).mp4';
 vidobj=VideoReader(source);
 frames=vidobj.Numberofframes;
@@ -41,23 +44,25 @@ for f=10:10:frames
 	%stocks(f/10) = paren(size(bbox),1);
 	%stocktime = cputime - stockti;
 
-	%this part where i save and load the frame as a jpg it is useful because of how i trained the model with jpgs
+	%this part where i save and load the frame as a jpg. It is useful because of how i trained the model with jpgs
 	%it doesnt work as well if I just use the frame. Different format messes with it I guess
+	%I also added some redundant time measuring things but they're not too important for now
 	kki = cputime;
 	thisfile=sprintf('C:/py/frames/frame_%010d.jpg',f);
     imwrite(thisframe,thisfile);
-    kk = imread(thisfile);
+    loadedImage = imread(thisfile);
     kktime = cputime - kki;
 
     %Here I find the percents of each player on that frame
-    %Called percentsTest because it was a new version of a function.
+    %Called percentsTest because it was a new version of the function.
     percenti = cputime;
-	[p1(f/10,1),p2(f/10,1)] = percentsTest(kk,p1Location,p2Location);
+	[p1(f/10,1),p2(f/10,1)] = percentsTest(loadedImage,p1Location,p2Location);
 	delete(thisfile);
 	percentime = cputime - percenti;
 
 	%Model to find what stage they where playing. Probably an overkill to calculate it each frame but I'll keep
 	%it this way for now
+	%Using the frame and not the loaded image works fine
 	stagei = cputime;
 	stage(f/10) = whatstage(thisframe);
 	stagetime=cputime - stagei;
@@ -77,7 +82,7 @@ for f=10:10:frames
   %and find the percents of each player after the match beggins
   if everyoneDead
   	if isequal(p2(f/10),{'0'}) & isequal(p1(f/10),{'0'})
-  		[p1Location, p2Location] = location(kk);
+  		[p1Location, p2Location] = location(loadedImage);
   		everyoneDead = 0;
   	end
   end
@@ -89,7 +94,7 @@ e = cputime-t
 
 
 %From here on its just cleaning and formatting of stuff. All the relevant info is in the cells
-%from the previous section.
+%from the previous section p1, p2, time and stage.
 
 %Some cleaning functions to remove obvious errors from the percentages cell
 p2PercentsClean = cleanPercents(p2);
@@ -101,6 +106,7 @@ p1SuperCleanSmall = smallSuperClean(p1PercentsClean);
 
 %Find where the 0% are, to know each point where a new stock started
 %it works well so I haven't had to use the clean version of the percents for this
+%Actual finding of relevant 0% is not straight forward so this function is kind of funky
 p1zeros = findzerosx(p1);
 p2zeros = findzerosx(p2);
 
@@ -119,7 +125,6 @@ cleanTime = timeCleaner(time);
 
 %What stages were played
 % playedStages = stage(startsAt); lazy way, prone to errors
-
 %likelyer way to get it right
 playedStages = playedStages(startsAt,stage);
 
@@ -149,7 +154,11 @@ finalDeathCellp1=finalDeathCellp1(p1DeathCell,whoWon,lastDeathPercent);
 files = dir('videos');
 a=files(3).name ;
 matchId=1;
+
+%Function to get names of players and winner
 [theWinner,nameP1,nameP2,wonStagesP1,wonStagesP2] = overview(a,whoWon);
+
+%Build overview struct with players names, winner, stages won
 matchOverview = struct('match_id',matchId,'Player1',nameP1,'Player2',nameP2,'Winner',theWinner,'Won_Stages_P1',wonStagesP1,'Won_Stages_P2',wonStagesP2);
 
 %Final Struct with all the relevant deatiled info. Death percents, duration, stages, etc
