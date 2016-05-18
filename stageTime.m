@@ -1,10 +1,9 @@
 function stageTime = stageTime(stageStarts,cleanTime)
 
-	%function to calculate the amount of time each stage lasted
+	%Function to calculate the amount of time each stage lasted
 
 	kk = cleanTime;
 	start= stageStarts;
-
 	stageTime=zeros(size(start,1),1);
 
 	for i=2:size(start,1)

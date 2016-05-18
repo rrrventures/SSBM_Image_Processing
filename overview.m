@@ -1,20 +1,20 @@
 function [theWinner,nameP1,nameP2,wonStagesP1,wonStagesP2] = overview(fileName,whoWon)
 
-	%function to get overview data
-	%gets characters played
+	%Function to get the overview data
+	%Gets characters played from file name
 	a = fileName;
 	asd=regexp(a,'\([A-z]+\)','match');
 
-	%gets rid of the parenthesis
+	%Gets rid of the parenthesis
 	asd=cellfun(@(x) x(2:(end - 1)),asd,'UniformOutput',false);
 
 
-	%get round that is being played
+	%Get round that is being played
+	%Specific tuning for Battle of the five gods
 	dominic = strsplit(a,' ');
 	round = dominic(1);
 
-	%get the players names
-
+	%Get the players names
 	empty = regexp(a,' ');
 	parenthesis =  regexp(a,'\(');
 	vs = regexp(a,'vs\.');

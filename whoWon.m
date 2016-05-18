@@ -6,11 +6,13 @@ function [whoWon,deathPercent] = whoWon(stageStarts,cleanTime,p1Percents,p2Perce
 	p2SuperCleanSmall = p2Percents;
 	kk = cleanTime;
 
-	%function to figure out who won in each stage and maybe check the death percent loser
-
-
+	%Function to figure out who won in each stage and check the death percent loser
 	whoWon = cell(size(start,1),1);
 	deathPercent = zeros(size(start,1),1);
+
+
+	%The idea is to go where a stage starts, and go back some frames to check who was the last person alive in the last stage
+	%The player alive should have a % in their cell, while the dead one should just have "." in the same frames
 
 	for i=2:size(start,1)
 		prueba = find(flip(kk((start(i)-300):(start(i)-1))) > 10,1);
@@ -38,7 +40,7 @@ function [whoWon,deathPercent] = whoWon(stageStarts,cleanTime,p1Percents,p2Perce
 
 	end
 
-	%warning, probably will fail if goes to time limit
+	%Warning, probably will fail if goes to time limit
 
 	prueba = find(flip(kk((end-800):end)>10),1);
 	ind = size(kk,1) - prueba;
@@ -47,7 +49,6 @@ function [whoWon,deathPercent] = whoWon(stageStarts,cleanTime,p1Percents,p2Perce
 	
 	aux1 = cell2mat(cellfun(@(x)str2double(x),paraTesteo1,'UniformOutput',false));
 	aux2 = cell2mat(cellfun(@(x)str2double(x),paraTesteo2,'UniformOutput',false));
-
 
 	l1 = ~logical(strcmp('.',paraTesteo1));
 	l2 = ~logical(strcmp('.',paraTesteo2));

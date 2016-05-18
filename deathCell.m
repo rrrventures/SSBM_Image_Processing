@@ -2,7 +2,7 @@ function deathCell = deathCell(deathPercents)
 
 	%function to format the death percents
 	%this will fail if someone gets a 4 stock
-
+	%It just splits the original cell into a different cell where the numbers are separated by stage
 
 	indx = find(cellfun('isempty',deathPercents)) ;
 	asd = cell(size(indx,1),1);
