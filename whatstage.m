@@ -1,6 +1,6 @@
 function stage = whatstage(image)
 	%Import the model. Remember to avoid loading it each time
-	categoryClassifier = importdata('C:/py/stageClassifer.mat');
+	categoryClassifier = importdata('stageClassifer.mat');
 
 	%Stage identifier function
 	%Crop and resize frame
